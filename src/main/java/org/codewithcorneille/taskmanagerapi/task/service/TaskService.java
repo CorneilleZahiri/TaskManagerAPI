@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.codewithcorneille.taskmanagerapi.task.dto.TaskDto;
 import org.codewithcorneille.taskmanagerapi.task.dto.TaskDtoRegister;
+import org.codewithcorneille.taskmanagerapi.task.dto.TaskUpdateStatus;
 import org.codewithcorneille.taskmanagerapi.task.entity.Task;
 import org.codewithcorneille.taskmanagerapi.task.enumeration.TaskEnum;
 import org.codewithcorneille.taskmanagerapi.task.mapper.TaskMapper;
@@ -53,6 +54,21 @@ public class TaskService {
 
         taskRepository.save(task);
 
+        return taskMapper.taskToTaskDto(task);
+    }
+
+    @Transactional
+    public TaskDto updateStatus(UUID id, TaskUpdateStatus request) {
+        //Rechercher la tâche
+        Task task = taskMapper.taskDtoToTask(getTaskById(id));
+        //Est-ce un bon status
+        if (!TaskEnum.taskEnumList().contains(request.getStatus().name())) {
+            throw new IllegalArgumentException("Le status n'existe pas. [A_FAIRE, EN_COURS, TERMINER");
+        }
+
+        task.setStatus(request.getStatus());
+
+        taskRepository.save(task);
         return taskMapper.taskToTaskDto(task);
     }
 }

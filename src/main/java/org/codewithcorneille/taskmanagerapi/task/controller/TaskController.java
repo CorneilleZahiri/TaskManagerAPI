@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.codewithcorneille.taskmanagerapi.share.ApiResponse;
 import org.codewithcorneille.taskmanagerapi.task.dto.TaskDto;
 import org.codewithcorneille.taskmanagerapi.task.dto.TaskDtoRegister;
+import org.codewithcorneille.taskmanagerapi.task.dto.TaskUpdateStatus;
 import org.codewithcorneille.taskmanagerapi.task.service.TaskService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -60,6 +61,13 @@ public class TaskController {
     public ResponseEntity<ApiResponse<TaskDto>> updateTask(@PathVariable UUID id, @Valid @RequestBody TaskDtoRegister taskDtoRegister) {
 
         return ResponseEntity.ok(ApiResponse.success("Modification réussie.", taskService.updateTask(id, taskDtoRegister)));
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<ApiResponse<TaskDto>> updateTaskStatus(@PathVariable UUID id,
+                                                                 @RequestBody TaskUpdateStatus taskUpdateStatus) {
+        return ResponseEntity.ok(ApiResponse.success(
+                "Modification du status réussie.", taskService.updateStatus(id, taskUpdateStatus)));
     }
 
 }
