@@ -7,13 +7,11 @@ import org.codewithcorneille.taskmanagerapi.task.dto.TaskDto;
 import org.codewithcorneille.taskmanagerapi.task.dto.TaskDtoRegister;
 import org.codewithcorneille.taskmanagerapi.task.service.TaskService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/tasks")
@@ -33,6 +31,13 @@ public class TaskController {
                 .toUri();
 
         return ResponseEntity.created(location).body(ApiResponse.success("Tâche enregistrée avec succès.", taskDto));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<TaskDto>> getTask(@PathVariable UUID id) {
+        return ResponseEntity.ok(ApiResponse
+                .success("Tâche récupérée avec succès.",
+                        taskService.getTaskById(id)));
     }
 
 }

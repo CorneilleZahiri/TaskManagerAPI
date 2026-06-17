@@ -1,5 +1,6 @@
 package org.codewithcorneille.taskmanagerapi.task.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.codewithcorneille.taskmanagerapi.task.dto.TaskDto;
@@ -9,6 +10,8 @@ import org.codewithcorneille.taskmanagerapi.task.enumeration.TaskEnum;
 import org.codewithcorneille.taskmanagerapi.task.mapper.TaskMapper;
 import org.codewithcorneille.taskmanagerapi.task.repository.TaskRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -24,5 +27,13 @@ public class TaskService {
         Task taskCreated = taskRepository.save(task);
 
         return taskMapper.taskToTaskDto(taskCreated);
+    }
+
+    @Transactional
+    public TaskDto getTaskById(UUID id) {
+        
+        return taskRepository.findById(id)
+                .map(taskMapper::taskToTaskDto)
+                .orElseThrow(() -> new EntityNotFoundException("Le paramètre id n'existe pas."));
     }
 }
