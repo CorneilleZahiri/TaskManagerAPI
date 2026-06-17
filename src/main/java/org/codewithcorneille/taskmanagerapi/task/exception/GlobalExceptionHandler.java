@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(exception.getMessage()));
     }
 
-//    @ExceptionHandler(DataAlreadyExistsException.class)
+    //    @ExceptionHandler(DataAlreadyExistsException.class)
 //    public ResponseEntity<ApiResponse<Void>> handleDuplicateEntry(DataAlreadyExistsException exception) {
 //        return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiResponse.error(exception.getMessage()));
 //    }
