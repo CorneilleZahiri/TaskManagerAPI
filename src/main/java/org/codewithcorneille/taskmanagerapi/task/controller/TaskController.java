@@ -6,6 +6,10 @@ import org.codewithcorneille.taskmanagerapi.share.ApiResponse;
 import org.codewithcorneille.taskmanagerapi.task.dto.TaskDto;
 import org.codewithcorneille.taskmanagerapi.task.dto.TaskDtoRegister;
 import org.codewithcorneille.taskmanagerapi.task.service.TaskService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -35,9 +39,21 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<TaskDto>> getTask(@PathVariable UUID id) {
+
         return ResponseEntity.ok(ApiResponse
                 .success("Tâche récupérée avec succès.",
                         taskService.getTaskById(id)));
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<Page<TaskDto>>> getAllTasks(
+            @RequestParam(required = false, name = "page", defaultValue = "0") int page,
+            @RequestParam(required = false, name = "size", defaultValue = "10") int size,
+            @RequestParam(required = false, name = "sort", defaultValue = "title") String sortBy
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+
+        return ResponseEntity.ok(ApiResponse.success("Liste des tâches.", taskService.getAllTasks(pageable)));
     }
 
 }

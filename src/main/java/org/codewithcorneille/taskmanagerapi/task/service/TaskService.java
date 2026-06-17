@@ -9,6 +9,8 @@ import org.codewithcorneille.taskmanagerapi.task.entity.Task;
 import org.codewithcorneille.taskmanagerapi.task.enumeration.TaskEnum;
 import org.codewithcorneille.taskmanagerapi.task.mapper.TaskMapper;
 import org.codewithcorneille.taskmanagerapi.task.repository.TaskRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -31,9 +33,14 @@ public class TaskService {
 
     @Transactional
     public TaskDto getTaskById(UUID id) {
-        
+
         return taskRepository.findById(id)
                 .map(taskMapper::taskToTaskDto)
                 .orElseThrow(() -> new EntityNotFoundException("Le paramètre id n'existe pas."));
+    }
+
+    @Transactional
+    public Page<TaskDto> getAllTasks(Pageable pageable) {
+        return taskRepository.findAll(pageable).map(taskMapper::taskToTaskDto);
     }
 }
