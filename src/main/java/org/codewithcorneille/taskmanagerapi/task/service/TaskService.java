@@ -43,4 +43,16 @@ public class TaskService {
     public Page<TaskDto> getAllTasks(Pageable pageable) {
         return taskRepository.findAll(pageable).map(taskMapper::taskToTaskDto);
     }
+
+    @Transactional
+    public TaskDto updateTask(UUID id, TaskDtoRegister request) {
+        //Rechercher la tâche
+        Task task = taskMapper.taskDtoToTask(getTaskById(id));
+
+        taskMapper.updateTask(request, task);
+
+        taskRepository.save(task);
+
+        return taskMapper.taskToTaskDto(task);
+    }
 }

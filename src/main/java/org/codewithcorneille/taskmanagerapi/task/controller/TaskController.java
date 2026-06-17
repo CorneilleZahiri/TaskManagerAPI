@@ -56,4 +56,10 @@ public class TaskController {
         return ResponseEntity.ok(ApiResponse.success("Liste des tâches.", taskService.getAllTasks(pageable)));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<TaskDto>> updateTask(@PathVariable UUID id, @Valid @RequestBody TaskDtoRegister taskDtoRegister) {
+
+        return ResponseEntity.ok(ApiResponse.success("Modification réussie.", taskService.updateTask(id, taskDtoRegister)));
+    }
+
 }
