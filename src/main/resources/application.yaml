@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /api/v1
+    context-path: ${API_BASE_PATH}
 
 spring:
   application:

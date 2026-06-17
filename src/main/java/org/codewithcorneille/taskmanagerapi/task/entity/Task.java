@@ -1,11 +1,11 @@
-package org.codewithcorneille.taskmanagerapi.entity;
+package org.codewithcorneille.taskmanagerapi.task.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.codewithcorneille.taskmanagerapi.constant.TaskEnum;
+import org.codewithcorneille.taskmanagerapi.task.enumeration.TaskEnum;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -30,7 +30,7 @@ public class Task {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private TaskEnum taskEnum;
+    private TaskEnum status;
 
     @Column(name = "created_at")
     private Instant createdAt;

@@ -1,12 +1,12 @@
-package org.codewithcorneille.taskmanagerapi.constant;
+package org.codewithcorneille.taskmanagerapi.task.enumeration;
 
 import java.util.Arrays;
 import java.util.List;
 
 public enum TaskEnum {
-    TODO,
-    IN_PROGRESS,
-    DONE;
+    A_FAIRE,
+    EN_COURS,
+    TERMINER;
 
     public static List<String> taskEnumList() {
         return Arrays.stream(TaskEnum.values()).map(Enum::name).toList();
